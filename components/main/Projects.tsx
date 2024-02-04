@@ -1,34 +1,49 @@
-import React from "react";
+"use client"
+import { motion, useTransform, useScroll } from "framer-motion";
+import { useRef } from "react";
+import "./scroll.css"
 import ProjectCard from "../sub/ProjectCard";
-
-const Projects = () => {
+const Project = () => {
   return (
-    <div
-      className="flex flex-col items-center justify-center py-20"
-      id="projects"
-    >
-      <h1 className="text-[40px] font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500 py-20">
-        My Projects
-      </h1>
-      <div className="h-full w-full flex flex-col md:flex-row gap-10 px-10">
-        <ProjectCard
-          src="/NextWebsite.png"
-          title="Modern Next.js Portfolio"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        />
-        <ProjectCard
-          src="/CardImage.png"
-          title="Interactive Website Cards"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        />
-        <ProjectCard
-          src="/SpaceWebsite.png"
-          title="Space Themed Website"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        />
-      </div>
+    <div className="" id="projects">
+      <HorizontalScrollCarousel />
     </div>
   );
 };
 
-export default Projects;
+const HorizontalScrollCarousel = () => {
+  const targetRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+  });
+
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-80%"]);
+  // const y = useTransform(scrollYProgress, [0, 1], ["10%", "-100%"]);
+  return (
+    <section ref={targetRef} className="relative h-[600vh] ">
+      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+        <motion.div style={{ x }} className="flex gap-4 mt-10">
+          <section className=" red   h-[80vh] w-[100vw] overflow-hidden ">
+            {/* <Project 
+            src=""
+            /> */}
+          </section>
+          <section className=" orange   h-[80vh] w-[100vw] overflow-hidden" >
+            TWO
+          </section>
+          <section className="purple   h-[80vh] w-[100vw] overflow-hidden" >
+            THREE
+          </section>
+          <section className="green   h-[80vh] w-[100vw] overflow-hidden" >
+            FOUR
+          </section>
+          <section className="gray   h-[80vh] w-[100vw] overflow-hidden" >
+            FIVE
+          </section>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+export default Project;
